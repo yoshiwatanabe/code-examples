@@ -1,12 +1,6 @@
 var gulp = require('gulp');
 
-var paths = {
- scripts: ['app/scripts/**/*.js'],
- html: ['app/index.html'],
- dist: 'dist/'
-};
-
 gulp.task('default', function(){
- gulp.src(paths.scripts.concat(paths.html))
- .pipe(gulp.dest(paths.dist));
+ gulp.src(['app/index.html','app/scripts/*.js'])
+ .pipe(gulp.dest('dist/'));
 });

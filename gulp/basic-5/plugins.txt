@@ -1,4 +1,0 @@
-gulp-concat
-gulp-uglify
-gulp-rename
-
