@@ -1,8 +1,9 @@
 Prerequisites
 1. Node.js is already installed
-2. Gulp is installed globally using a command 'npm install -g gulp'
+2. Gulp is already installed globally using 'npm install -g gulp' command
 
-Steps
-1. Install gulp to this project using a command 'npm install gulp'
-2. Install additional gulp plug-ins listed in plugins.txt using a command 'npm install <plugin>'
-2. Run a command 'gulp'
+Steps for each sample project
+1. Install gulp to a project using 'npm install gulp' command
+2. Install required gulp plug-ins (see plugins.txt in each project) using 'npm install <plugin>' command
+3. Run 'gulp' command
+4. You should see the outcome
