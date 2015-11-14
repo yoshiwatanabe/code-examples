@@ -2,7 +2,7 @@ var gulp = require('gulp');
 
 var paths = {
  scripts: ['app/scripts/**/*.js'],
- html: ['app/index.html', '!app/test.html'],
+ html: ['app/index.html'],
  dist: 'dist/'
 };
 
