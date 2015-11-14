@@ -1,2 +1,5 @@
 1. npm install
 2. gulp
+3. browse to http://localhost:8080
+4. change something in app/index.html
+5. reload http://localhost:8080
