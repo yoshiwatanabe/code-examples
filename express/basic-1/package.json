@@ -1,0 +1,11 @@
+{
+  "name": "basic-0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Yoshi Watanabe",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.13.3"
+  }
+}
