@@ -1,4 +1,4 @@
-#Simple JSON Web Token decoder
+#Simple JSON Web Token (JWT) decoder
 
 This is a node.js application that accepts a [base64url encoded JWT token](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32) and prints out the header and claims in JSON.
 
