@@ -1,0 +1,3 @@
+﻿module BusinessLogics
+
+//type Manifest
