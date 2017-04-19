@@ -1,6 +1,7 @@
 ﻿
 // Define a very simple function.
-let square x = x * x
+//let square x = x * x
+// this define a function named square with signature x:int -> int
 
 // Use pipe forward to combine two functions to achive one result
 let sum numbers =
@@ -8,13 +9,14 @@ let sum numbers =
     |> Seq.map square
     |> Seq.sum
 
+// list comprehension. pipe-forward, pass to a composite function
 let n = [1..10] |> sum
 
 // -------------------
 
 // Define a function that simply changes the sign
 let negate x = -x
-
+// List.map signature is it : (('a -> 'b) -> 'a list -> 'b list)
 let negated = List.map negate [1.. 10]
 
 // -------------------
