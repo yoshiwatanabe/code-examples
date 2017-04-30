@@ -1,0 +1,7 @@
+level-01 client and library class, declared in the same 'unspecified' package
+level-02 client in a package uses a library class, declared in a different package
+level-03 client in a package uses a library class, declared in a different package, stored in a jar file
+level-04 client in a jar file uses another class in a separate jar file
+
+level-09 a web application as a war file, uses a jar file inside of the war file
+

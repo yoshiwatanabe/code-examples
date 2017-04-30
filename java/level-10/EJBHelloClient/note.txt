@@ -1,0 +1,25 @@
+[Goal]
+Create EJBHelloClient.jar JAR file in "build" directory
+
+[Step 1] ===========================================================================
+Compile Hello.java
+$ javac -cp /home/tsuyoshi_watanabe/apps/wildfly-8.0.0.Alpha4/modules/system/layers/base/javax/ejb/api/main/jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar -d build  ejbModule/yoshi/Hello.java
+=> Creates Hello.class
+
+Note that we specify a JAR file as a dependency to -cp (-classpath) option:
+
+jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar <= JBoss implementation of EJB stuff
+
+
+[Step 2] ===========================================================================
+Also copy Metadata directory and file
+$ cp -r ejbModule/META-INF/ build/
+=> Copies the metadata directory and file to be included in a JAR file
+
+
+[Step 3] ===========================================================================
+Create a JAR file
+cd build
+$ jar cf EJBHelloClient.jar META-INF/ yoshi/
+=> Creates EJBHelloClient.jar file
+

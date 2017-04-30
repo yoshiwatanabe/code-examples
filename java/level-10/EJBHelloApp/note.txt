@@ -1,0 +1,34 @@
+[Goal]
+Create EJBHelloApp.jar JAR file in the build directory
+
+
+[Step 1] ===========================================================================
+First, copy all web contents to the "build" directory
+$ cp -r WebContent/* build/
+
+[Step 2] ===========================================================================
+Next, create a folder to store compiled java classes under "build" directory
+$ mkdir build/WEB-INF/classes
+
+[Step 3] ===========================================================================
+Now, the messy part. We want to compile a single java file called HelloServlet.java
+To do so, we need to specify dependency JAR files at -classpath (-cp) switch.
+
+Note that three JAR files are specified
+
+jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar <= JBoss implementation of EJB stuff
+jboss-servlet-api_3.1_spec-1.0.0.Beta1.jar <= JBoss implementation of Http Servlet stuff
+EJBHelloClient.jar <= To get to our "Hello" interface
+
+We also want to place the HelloServlet.class output file under "build/WEB-INF/classes" folder.
+
+So, putting all together:
+
+$ javac -cp /home/tsuyoshi_watanabe/apps/wildfly-8.0.0.Alpha4/modules/system/layers/base/javax/ejb/api/main/jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar:/home/tsuyoshi_watanabe/apps/wildfly-8.0.0.Alpha4/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Beta1.jar:../EJBHelloClient/build/EJBHelloClient.jar  -d build/WEB-INF/classes src/yoshi/HelloServlet.java
+
+
+[Step 4] ===========================================================================
+Now, create EJBHelloApp.jar file
+$ cd build
+$ jar cf EJBHelloApp.jar hello.jsp META-INF/ WEB-INF/
+

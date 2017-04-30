@@ -1,0 +1,28 @@
+Summary
+
+Demonstrates how to compile against a jar file, and then run the application. In .NET world, you would do this by simply adding a project reference (or browse to a third-party assembly) and then resolve the namespace. Both application EXE and a library DLL get copied into bin folder, and just run EXE. In Java, its done differently. The directory hierarchy is the key difference. Packages, even inside of a jar file, has to be stored in named hierarchy.
+
+Steps:
+
+Build a jar file by following another note.txt in libs directory.
+=> Creates testlib.jar in libs directory
+
+Compile MyApp.java
+javac -cp .:libs/testlib.jar MyApp.java
+=> Creates MyApp.class
+
+Move MyApp.class to an appropriate package directory
+mv MyApp.class testapp
+=> Moves MyApp.class to testapp directory
+
+Run MyApp.class
+java -cp .:libs/testlib.jar testapp.MyApp
+
+Remarks
+
+The jar file's internal directory has to be structured the java way - that is package name has to have corresponding directory structure (what a pain...)
+
+When you compile, using javac, you have to tell it where to look for Util class, which is stored in libs/testlib.jar
+
+When you run MyApp, using java, you have to tell it where to look for Util class, which is stored in libs/testlib.jar
+

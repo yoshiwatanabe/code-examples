@@ -1,0 +1,26 @@
+[Goal]
+Create EJBHello.jar file in build directory
+
+
+
+[Step 1] ===========================================================================
+We want to compile HelloImpl.java using javac
+The messy part is the -cp (-classpath) options. To resolve all types used in HelloImpl.java, these two JAR files had to be specified:
+
+jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar <= JBoss implementation of EJB stuff
+EJBHelloClient.jar <= Our library that contains an interface "Hello"
+
+We also want to specify the destination directory to "build", so we use javac -d switch.
+
+Putting all together, run this (change the path to JBoss/Wildfly accordingly on your machine)
+$ javac -cp /home/tsuyoshi_watanabe/apps/wildfly-8.0.0.Alpha4/modules/system/layers/base/javax/ejb/api/main/jboss-ejb-api_3.2_spec-1.0.0.Alpha2.jar:../EJBHelloClient/build/EJBHelloClient.jar  -d build  ejbModule/yoshi/HelloImpl.java
+
+[Step 2] ===========================================================================
+Copy other metatdata stuff to the build directroy
+$ cp -r ejbModule/META-INF/ build/
+
+[Step 3] ===========================================================================
+Go to the build directory and then create a JAR file
+$ cd build
+$ jar cf EJBHello.jar META-INF/ yoshi/
+

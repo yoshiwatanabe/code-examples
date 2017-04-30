@@ -1,0 +1,40 @@
+Summary
+
+Compile MyApp.java
+javac -cp .:../libs/testlib.jar MyApp.java
+
+
+Move MyApp.class to testapp directory
+mv MyApp.class testapp
+=> Moves MyApp.class to testapp directory
+
+Create a main MyApp.jar
+jar cf myapp.jar testapp/*.class
+
+
+Run MyApp.class
+java -cp .:../libs/testlib.jar testapp.MyApp
+
+
+Remarks
+
+Yes, this needs explanation. 
+
+First, realize that we have two jar files. myapp.jar and libs/testlib.jar files.
+Second, realize that the Main function is declared in testapp.MyApp, compiled as MyApp.class, stored in myapp.jar
+
+If you run
+java testapp.MyApp 
+=> Error class Util not found
+Java class loader finds a static Main declared in myapp.jar, which is at the current directory (and by default, a current directory is part of CLASSPATH, which java tools uses to look for things)
+
+If you run
+java -cp libs/testlib.jar testapp.MyApp
+=> Error testapp.MyApp class not found
+(This one I am not 100%, but it seems -cp option *overrides* the default policy of including a current directry in CLASSPATh. Anyhow, java does not search the current directory)
+
+So you do
+java -cp .:libs/testlib.jar testapp.MyApp
+=> The app runs fine
+java happily finds testapp.MyApp from myapp.jar in the current directory, and also happily loads Util class from libs/testlib.jar
+

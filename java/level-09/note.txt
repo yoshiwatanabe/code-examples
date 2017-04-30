@@ -1,0 +1,18 @@
+Summary
+
+Demonstrate creating a very simple web application in WAR file, that uses a class in a JAR file
+
+Steps
+
+Create a WAR file
+jar cvf mywebapp.war *.jsp WEB-INF
+=> creates mywebapp.war file
+
+
+Copy to a web server (JBoss in this case)
+cp mywebapp.war $JBOSS_HOME/standalone/deployments
+=> JBoss loads the war file
+
+Check to see our JSP file will return a HTTP response
+http://localhost:8080/mywebapp/hi.jsp
+=> A test returned from a class stored in a JAR file is returned

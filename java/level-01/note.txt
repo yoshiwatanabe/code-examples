@@ -1,0 +1,23 @@
+Summary
+
+Demonstrates what it means to have classes in an anonymous package.
+Observe that java files do *not* have "package" declaration.
+
+Steps
+
+Compile Util.java:
+javac Util.java
+=> Creates Util.class
+
+Compile MyApp.java: 
+javac MyApp.java
+=> Creates MyApp.class
+
+Run MyApp.class:
+java MyApp
+
+Remarks
+- We have two java class definitions with no package declaration. This means two classes are in the same "root" (anonymous) package
+
+- You do "javac MyApp.java" and the compiler revolves the symbol by trying to locate Util.class in the root (current) directory (because a current directory is considered an implicit CLASSPATH)
+

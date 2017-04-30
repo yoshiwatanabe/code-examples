@@ -1,0 +1,41 @@
+Summary
+
+Demonstrates how to create a WAR file that contains a single servlet.
+Demonstrates how to compile a servlet by manually downloading a target "servlet api" implementation
+
+Assumptions
+
+This sample assumes that we use JBoss to host our servlet (I am using WildFly)
+
+
+Steps
+
+Manually download JBoss's "servlet api" jar file from http://mvnrepository.com/artifact/org.jboss.spec.javax.servlet/jboss-servlet-api_3.0_spec
+=> Downloaded jboss-servlet-api_3.0_spec-1.0.2.Final.jar
+
+
+Compile HelloServlet.java
+javac -cp jboss-servlet-api_3.0_spec-1.0.2.Final.jar HelloServlet.java
+=> Creates HelloServlet.class
+
+
+Move HellowServlet.class to a special "classes" directory, following packaging hierarchy
+mv HelloServlet.class WEB-INF/classes/test
+=> Moves HelloServelet.class to an appropriate location
+
+
+Create a WAR file
+jar -cvf mywebapp.war WEB-INF
+=> Creates mywebapp.war
+
+
+Copy mywebapp.war to JBoss standalone/deployments folder
+cp mywebapp.war $JBOSS_HOME/standalone/deployments
+=> Copies mywebapp.war to a auto deployment folder that JBoss scans and loads into JBoss
+
+
+Verify that our servlet is running
+http://localhost:8080/mywebapp/hello
+=> HTML page that says "hello" is returned.
+
+

@@ -1,0 +1,17 @@
+Summary
+
+Demonstrate creating a very simple web application
+
+Steps
+
+Create a WAR file
+jar cvf mywebapp.war *.jsp WEB-INF
+=> creates mywebapp.war file
+
+
+Copy to a web server (JBoss in this case)
+cp mywebapp.war $JBOSS_HOME/standalone/deployments
+
+
+Check to see our JSP file will return a HTTP response
+http://localhost:8080/mywebapp/hi.jsp

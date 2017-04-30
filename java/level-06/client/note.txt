@@ -1,0 +1,59 @@
+Summary
+
+Demonstrates how to use Class-Path in a Manifest.txt to specify external dependencies (other jar files) so that a jar file can be executed with "java -jar" commandline
+
+
+First, let's observe the error we receive when Manifest does not include Class-Path
+
+Steps
+
+MyApp.class is already provided in the sample
+
+Create myapp.jar with our manifest
+jar cfm myapp.jar Manifest.txt testapp/*.class
+=> Creates myapp.jar
+
+
+Try to run myapp.jar (but it will fail)
+java -jar testapp.jar
+=> Exception in thread "main" java.lang.NoClassDefFoundError: testlib/Util
+
+
+Next, we will specify a different manifest file named Manifest-Better.txt that contains Class-Path like this:
+
+Class-Path: testlib.jar
+
+This is basically an assembly reference statement similar to .NET assembly
+
+Steps
+
+Create myapp.jar with a better manifest file
+jar cfm  myapp.jar Manifest-Better.txt testapp/*.class
+=> Creates myapp.jar
+
+
+Try to run myapp.jar 
+java -jar myapp.jar
+=> Exception in thread "main" java.lang.NoClassDefFoundError: testlib/Util
+
+We are still getting an error, but this because class loader can't locate testlib.jar
+
+You may try to resolve this by doing this. This will NOT work. (I run into this and found out that if you use -jar switch, -cp is ignored)
+
+Try to run maypp.jar with -cp (it will fail)
+java -jar myapp.jar -cp .:../libs/testlib.jar
+=> => Exception in thread "main" java.lang.NoClassDefFoundError: testlib/Util
+
+
+
+Finally, to get it working, testlib.jar has to be in the same directory (or in a relative directly if Class-Path declaration used directly path to specify a dependent jar file)
+
+cp ../libs/testlib.jar .
+java -jar myapp.jar
+=> Runs successfully
+
+
+A big take away here.
+You noticed that there can be more than one cause for "NoClassDefFoundError"
+1. Used "java -jar" but the .jar didn't have Class-Path
+2. Did havef Class-Path in the .jar file, but the actual dependency .jar file not reachable (and -cp can't be used to resolve it)

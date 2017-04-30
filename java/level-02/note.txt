@@ -1,0 +1,37 @@
+Summary:
+Demonstrates the effect of packages. This is probably one of the most consing things for .NET/C# developers
+A package is an hierarchy of names, and in order for Java tools (e.g. javac) to reach class definitions (in a text .java file) and class files (Java bytecodes), they need to be stored in matching directory hierarchy.
+
+Steps
+
+Compile Util.java
+javac Util.java
+=> creates Util.class
+
+Move Util.class to an appropriate directory location
+mv Util.class testlib
+=> Move the class file under testlib/ directory. This matches the package name
+
+Compile MyApp.java
+javac MyApp.java
+=> Creates MyApp.class
+
+(Experiment: move the Util.class back to the root directory, and then try to complile MyApp.java. You will see an error.)
+
+Move MyApp.clas to an appropriate directory location
+mv MyApp.class testapp
+=> Moves the class file to testapp/ directory. This matches the package name
+
+Run MyApp.class
+java testapp.MyApp
+- or -
+java testapp/MyApp
+=> MyApp runs.
+
+
+Remarks:
+This is weird java stuff for me who is so used to .NET/C# way.
+
+Both MyApp.class and MyUtil.class have to be stored in their respective "package" subfolders. Otherwise, java runtime (class loader) won't be able to load the application.
+
+This is kind of weird, but I guess what is going on is that java class loader is checking CLASSPATH, which includes the current directly, and try to locate a 'package' (a path, or subdirectory that matches the package hierarchy) and then resolve the class by file name.

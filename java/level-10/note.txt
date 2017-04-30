@@ -1,0 +1,37 @@
+[Summary]
+Demonstartes how to build an EJB application from scratch, using only the low-level Java SDK tools such as javac and jar. This is one way to learn how things are put together without using tools like Eclipse.
+
+***WARNING*** 
+Unfortunately, this does not work. EJB container complains about linking HelloImpl. I have not had chance to figure out why. There must be something I am not doing correctly.
+This is really to demonstrate how things get "built".
+
+[Goal]
+Create EJBHelloEAR.ear that contains three other JAR files
+
+[Step 1] ===========================================================================
+Follow the instructions under EJBHelloClient/note.txt
+=> EJBHelloClient/build/EJBHelloClient.jar created
+
+[Step 2] ===========================================================================
+Follow the instructions under EJBHello/note.txt
+=> EJBHello/build/EJBHello.jar created
+
+[Step 3] ===========================================================================
+Follow the instructions under EJBHelloApp/note.txt
+=> EJBHelloApp/build/EJBHelloApp.jar created
+
+[Step 4] ===========================================================================
+Copy all the JAR files to the root of this sample
+cp EJBHelloClient/build/EJBHelloClient.jar .
+cp EJBHello/build/EJBHello.jar .
+cp EJBHelloApp/build/EJBHelloApp.jar .
+
+[Step 5] ===========================================================================
+Combine all together into a single EAR file
+jar cf EJBHelloEAR.ear EJBHello.jar EJBHelloClient.jar EJBHelloApp.jar 
+
+[Step 6] ===========================================================================
+Copy EAR file to JBoss deployment folder
+cp EJBHelloEAR.ear $JBOSS_HOME/standalone/deployments
+
+***note*** Unfortunately, this does not work. EJB container complains about linking HelloImpl. I have not had chance to figure out why. There must be something I am not doing correctly. If everything works, then http://localhost:8080/EJBHelloApp/hello would have produced "Hello from local" HTML output.

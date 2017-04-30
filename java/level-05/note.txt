@@ -1,0 +1,54 @@
+Summary
+
+Demonstrates how to use Manifest.txt to specify main class. This allows us to run the application using -jar switch of java.
+
+
+First, let's observe the error we receive if we try to run a jar file that does *not* have Main-Class declaration in the jar's Manifest
+
+Steps
+
+Compile MyApp.java
+javac MyApp.java
+=> creates MyApp.class
+
+Move MyApp.class to appropriate package directory
+mv MyApp.class testapp
+=> Move MyApp.class to testapp directory
+
+Create myapp.jar
+jar cf myapp.jar testapp/*.class
+=> Creates myapp.jar
+
+Note. The tool automatically created a Manifest file named MANIFEST.MF inside of the jar file. Check it out by doing the following two commands:
+
+jar tf myapp.jar
+=> dumps the internal file directory of myapp.jar
+
+unzip -p myapp.jar META-INF/MANIFEST.MF
+=> dumps the content of a file called MANIFEST.MF which is under META-INF folder (all inside of a jar file)
+
+You see that there isn't any Main-Class declaration in MANIFEST.MF
+
+Try to run MyApp.class (won't work though)
+java -jar myapp.jar
+=> Error: no main manifest attribute
+
+The error is saying that if we want to specify a jar file using -jar switch, we must have Main-Class line in the jar's manifest.
+
+
+
+
+Next, we will make sure that Main-Class gets specified
+
+Steps
+
+Create a main MyApp.jar
+jar cfm myapp.jar Manifest.txt testapp/*.class
+=> Creates myapp.jar
+NOTE: This time, we told the tool to pick up what we say in Manifest.txt. In that file, we specify Main-Class.
+
+Run MyApp.class
+java -jar testapp.MyApp
+=> Runs successfully
+
+

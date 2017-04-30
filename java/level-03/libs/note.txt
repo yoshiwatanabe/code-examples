@@ -1,0 +1,20 @@
+Summary:
+Demonstrates how to create a .jar file. Unlike .NET, classes in Java can be deployed as independent class files (weired, hu?). It can also be packaged into a JAR file, which is nothing but a ZIP file. JAR file is somewhat similar to .NET assembly file, but has some different nuances (which I am trying to get used to)
+
+Steps
+
+Compile Util.java
+javac Util.java
+=> creates Util.class
+
+Move Util.class to an appropriate directory location
+mv Util.class testlib
+=> Move the class file under testlib/ directory. This matches the package name
+
+Create a JAR file
+jar cf testlib.jar testlib/*.class
+
+Remarks:
+
+You can alsways check the content of JAR file (remember, its just a ZIPed file)
+jar tf testlib.jar

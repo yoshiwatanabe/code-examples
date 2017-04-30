@@ -1,0 +1,15 @@
+Summary
+
+Demonstrates how to use Class-Path in a Manifest for JAR file that uses anothe JAR file
+
+Steps
+
+This sample does not contain raw .java source files. It is about packaging .class files and .jar files.
+
+client/testapp/MyApp.class
+libs/testlib.jar
+
+are provided.
+
+
+Follow the steps in a separate client/note.txt

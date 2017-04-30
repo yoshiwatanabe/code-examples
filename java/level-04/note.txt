@@ -1,0 +1,11 @@
+Summary
+
+Demonstrates how a class in a jar file uses another class in a separate jar file.
+Demonstrates how java can find an application's Main function.
+Does not demonstrate how to use JAR Manifest file to simplify the set up (see level-05 for that)
+
+Steps
+
+libs/testlib.jar is already created
+
+Follow the steps in a separate client/note.txt
