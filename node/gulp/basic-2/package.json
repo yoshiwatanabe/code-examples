@@ -1,0 +1,12 @@
+{
+  "name": "basic-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "author": "Yoshi Watanabe",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-rimraf": "^0.2.0"
+  }
+}
