@@ -1,0 +1,31 @@
+#container {
+  background-color: black;
+  margin-left: 200px;
+  margin-top: 200px;
+  position: absolute;
+}
+.squareTile {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+}
+#tile0 {
+  background-color: green;
+  top: 0;
+  left: 0;
+}
+#tile1 {
+  background-color: red;
+  top: 0;
+  left: 100;
+}
+#tile2 {
+  background-color: yellow;
+  top: 100;
+  left: 0;
+}
+#tile3 {
+  background-color: blue;
+  top: 100;
+  left: 100;
+}

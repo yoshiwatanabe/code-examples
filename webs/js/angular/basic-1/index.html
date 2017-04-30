@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" ng-app="storeApp">
+
+<head>
+  <meta charset="utf-8">
+  <title>Store</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <script src="controllers.js"></script>
+</head>
+
+<body ng-controller="inventory">
+
+  <ul>
+    <li ng-repeat="fruit in fruits">
+      <span>{{fruit.name}}</span>
+    </li>
+  </ul>
+
+</body>
+
+</html>

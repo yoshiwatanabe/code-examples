@@ -1,0 +1,12 @@
+<div class="alert">
+  <!-- <- this is the [x] button. when user click this [x], ng-click causes close() function to be called -->
+  <a href class="close" ng-click="close({message: 'closing for now'})">x</a>
+  <!-- below is whatever from the parent -->
+  <div ng-transclude></div>
+</div>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

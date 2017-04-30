@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="A simple React example that does not use JSX.">
+  <title>Page</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.min.js"></script>
+</head>
+
+<body>
+  <div id="container">
+  </div>
+
+  <script type="text/javascript">
+
+    // https://facebook.github.io/react/docs/top-level-api.html
+    var Greeting = React.createClass({
+      render: function() {
+        return (
+          // https://facebook.github.io/react/docs/glossary.html
+          React.createElement('p', {}, this.props.name)
+        );
+      }
+    });
+
+    // https://facebook.github.io/react/docs/top-level-api.html
+    ReactDOM.render(
+      React.createElement(
+        Greeting,
+        { name: 'yoshi' }),
+        document.getElementById('container')
+    );
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+#labelDiv {
+    font-size: 70px;
+    position: absolute;
+    top: 280px;
+    left: 100px;
+    z-index: 1;
+}
+#can {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+}

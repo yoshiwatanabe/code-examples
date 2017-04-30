@@ -1,0 +1,15 @@
+#labelDiv {
+    font-size: 70px;
+    position: absolute;
+    top: 280px;
+    left: 100px;
+    z-index: 4;
+
+}
+#can {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+    pointer-events:none;
+}

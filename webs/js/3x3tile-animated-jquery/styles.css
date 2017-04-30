@@ -1,0 +1,36 @@
+/* The container of the 3x3 tiles */
+
+#container {
+  width: 300px;
+  height: 300px;
+  margin-left: 200px;
+  margin-top: 80;
+}
+
+/* Applies to all div tags of the container element */
+
+.tile {
+  height: 100px;
+  width: 100px;
+  border: solid 1px gray;
+  box-sizing: border-box;
+  float: left;
+}
+
+/* Represents the selected state */
+
+.selected {
+  background-color: green;
+}
+
+/* Represents the state of being aimed by a selecting device */
+
+.aimed {
+  cursor: pointer;
+}
+
+/* Elements of this class can transition to the selected state */
+
+.selectable {
+  background-color: yellow;
+}

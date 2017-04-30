@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-example22-production</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <script src="script.js"></script>
+
+
+
+</head>
+<body ng-app="docsIsoFnBindExample">
+  <div ng-controller="Controller">
+  {{message}}
+<!-- template's ng-click causes directive's isolated scope's 'close' to be called -->
+  <!-- on-close is bound to directive's isolate scope's 'close' function using &onClose, so on-close runs now -->
+  <!-- on-close in turn calls Controller's hideDialog method, passing message, which originates at ng-click site (my-dialog-close) -->
+
+  <my-dialog ng-hide="dialogIsHidden" on-close="hideDialog(message)">
+    Check out the contents, {{name}}!
+  </my-dialog>
+</div>
+</body>
+</html>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
