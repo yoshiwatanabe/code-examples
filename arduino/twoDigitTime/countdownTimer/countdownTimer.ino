@@ -12,15 +12,13 @@ int digitPins [numOfDigits] = {4, 5}; //CC(or CA) pins of segment
 
 //Constants
 const int startButtonPin = 2;
-const int changeButtonPin = 3;
-const int setButtonPin = 13;
 const int dotPoint1 = A0; //left digit
 const int dotPoint2 = A1; //right digit
 //Variables
 String numberText = "99";
 int digit1 = 0;
 int digit2 = 0;
-int start, changeState, set;
+int start;
 int setPoint = 0;
 int countValue;
 //Useful flags
@@ -29,8 +27,6 @@ boolean countingDown = false;
 void setup()
 {
   pinMode(startButtonPin, INPUT_PULLUP);
-  pinMode(changeButtonPin, INPUT_PULLUP);
-  pinMode(setButtonPin, INPUT_PULLUP);
   pinMode(dotPoint1, OUTPUT);
   pinMode(dotPoint2, OUTPUT);
   //Defines the number of digits to be "numOfDigits" and the digit pins to be the elements of the array "digitPins"
@@ -47,22 +43,7 @@ void loop()
 {
   //Read buttons state
   start = digitalRead(startButtonPin);
-  changeState = digitalRead(changeButtonPin);
-  set = digitalRead(setButtonPin);
-
-  if (set == LOW && !countingDown)
-  {
-    delay(500);
-    if (setPoint < 2)
-    {
-      setPoint++;
-    }
-    else
-    {
-      setPoint = 0;
-    }
-  }
-
+  
   //Start counting...
   if (start == LOW && setPoint == 0)
   {
@@ -77,37 +58,7 @@ void loop()
       countingDown = false;
     }
   }
-  
-  if (changeState == LOW && setPoint == 1 && !countingDown) 
-  {
-    delay(500);
-    if (digit1 < 9)
-    {
-      digit1++;
-    }
-    else 
-    {
-      digit1 = 0;
-    }
-  
-    numberText = String(digit2) + String(digit1);
-  }
-  
-  if (changeState == LOW && setPoint == 2 && !countingDown) 
-  {
-    delay(500);
-    if (digit2 < 9) 
-    {
-      digit2++;
-    }
-    else 
-    {
-      digit2 = 0;
-    }
     
-    numberText = String(digit2) + String(digit1);
-  }
-  
   //Control dot points
   if (setPoint == 0) 
   {
