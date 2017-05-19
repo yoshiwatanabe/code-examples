@@ -1,34 +1,31 @@
 #include "SevenSeg.h"
 
-//Seven Seg
-SevenSeg disp (10, 9, 8, 7, 6, 11, 12); //Defines the segments A-G: SevenSeg(A, B, C, D, E, F, G);
-const int numOfDigits = 2;      //number of 7 segments
-int digitPins [numOfDigits] = {4, 5}; //CC(or CA) pins of segment
-
-
-//Constants
+const int maxSeconds = 180;
+const int oneMinuteInS = 60;
+const int oneSecondInMS = 1000;
 const int startButtonPin = 2;
+const int statusOKIndicatorPin = 0;
+const int statusWarningIndicatorPin = 0;
+const int statusOverIndicatorPin = 0;
+const int digitPinsCount = 2;
 
-//Variables
-String numberText = "99";
-int digit1 = 0;
-int digit2 = 0;
-int start;
-int countValue;
-//Useful flags
-boolean countingDown = false;
+int digitPins [digitPinsCount] = {4, 5}; //CC(or CA) pins of segment
+SevenSeg disp (10, 9, 8, 7, 6, 11, 12); //Defines the segments A-G: SevenSeg(A, B, C, D, E, F, G);
+int counter;
+boolean isCounting = false;
+boolean canceled = false;
+
+enum Status { StatusOK, StatusWarning, StatusOver };
+
+Status GetStatus(int count);
+int GetStatusIndicatorPin(Status status);
 
 void setup()
 {
   pinMode(startButtonPin, INPUT_PULLUP);
 
-  //Defines the number of digits to be "numOfDigits" and the digit pins to be the elements of the array "digitPins"
-  disp.setDigitPins (numOfDigits , digitPins);
-
-  //Only for common cathode 7segments
+  disp.setDigitPins (digitPinsCount , digitPins);
   disp.setCommonCathode();
-
-  //Control brightness (values 0-100);
   disp.setDutyCycle(20);
   disp.setTimer(2);
   disp.startTimer();
@@ -36,52 +33,68 @@ void setup()
 
 void loop()
 {
-  //Read buttons state
-  start = digitalRead(startButtonPin);
-  
-  //Start counting...
-  if (start == LOW)
+  if (digitalRead(startButtonPin) == LOW)
   {
-    delay(500);
-    if (!countingDown)
+    if (!isCounting)
     {
-      countingDown = true;
-      countValue = numberText.toInt();
+      canceled = false;      
+      isCounting = true;
+      counter = 0;
+    }
+    else
+    {
+      canceled = true;
+      isCounting = false;
+      delay(2000);
     }
   }
     
-  
-  //////////Counter Control///////////
-  if (countingDown)
-  {
-    if (countValue > 0 && countValue <= 10)
+  if (isCounting)
+  {    
+    if (canceled)
     {
-      countValue--;
-      delay(1000);
-      disp.write("0" + String(countValue));
+      isCounting = false;
+      counter = 0;
     }
-    else if (countValue > 10)
+    else if (counter < maxSeconds)
     {
-      countValue--;
-      delay(1000);
-      disp.write(String(countValue));
+      // Show status indicator, and wait for one second.
+      int indicatorPin = GetStatusIndicatorPin(GetStatus(counter));      
+      delay(oneSecondInMS);
+
+      // If two-digit seconds, use it as is. Otherwise prefix with "0".
+      
+      int seconds = counter % oneMinuteInS;
+      disp.write((seconds >= 10) ? String(seconds) : "0" + String(seconds));
+      counter++;
     }
-    else if (countValue == 0)
+    else
     {
-      disp.write("00");
-      delay(500);
-      disp.write(" ");
-      delay(500);
-      countingDown = false;
+      isCounting = false;
     }
-  }
-  else
-  {
-    disp.write(numberText);
   }
 }
 
-ISR( TIMER2_COMPA_vect ) {
+Status GetStatus(int count)
+{
+  return count < oneMinuteInS ? 
+    StatusOK : 
+    count < oneMinuteInS * 2 ? 
+      StatusWarning : 
+      StatusOver;
+}
+
+int GetStatusIndicatorPin(Status status)
+{
+  return status == StatusOK ? 
+    statusOKIndicatorPin :
+    status == StatusWarning ? 
+      statusWarningIndicatorPin : 
+      statusOverIndicatorPin;
+}
+
+ISR( TIMER2_COMPA_vect ) 
+{
   disp.interruptAction ();
 }
 
