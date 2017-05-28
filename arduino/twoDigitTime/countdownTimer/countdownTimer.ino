@@ -1,116 +1,182 @@
 #include "SevenSeg.h"
 
-const int maxSeconds = 180;
-const int oneMinuteInS = 60;
-const int oneSecondInMS = 1000;
-const int startButtonPin = 1;//2;
-const int statusOKIndicatorPin = 4;//13;
-const int statusWarningIndicatorPin = 3;// Not lighting up. Is the pin bad? or is LED circuit bad?
-const int statusOverIndicatorPin = 2;
-const int digitPinsCount = 2;
+//
+// Constants
+//
+const int MAX_SECONDS = 180;
+const int ONE_MINUTE_IN_SECONDS = 60;
+const int ONE_SECOND_IN_MS = 1000;
+const int CONTROL_BUTTON_PIN = 1;
+const int NORMAL_STATE_LED_PIN = 4;
+const int ABNORMAL_STATE_LED_PIN = 3;
+const int DANGER_STATE_LED_PIN = 2;
+const int DIGITS_PINS_COUNT = 2;
 
-int digitPins [digitPinsCount] = {11, 7};//{4, 5}; //CC(or CA) pins of segment
-SevenSeg disp (6, 5, 10, 12, 13, 8, 9); //(10, 9, 8, 7, 6, 11, 12); //Defines the segments A-G: SevenSeg(A, B, C, D, E, F, G);
-int counter;
+//
+// Variables
+//
+int digitPins [DIGITS_PINS_COUNT] = {11, 7};
+SevenSeg disp (6, 5, 10, 12, 13, 8, 9); // (A, B, C, D, E, F, G)
+int counter = 0;
 boolean isCounting = false;
-boolean canceled = false;
 
-enum Status { StatusOK, StatusWarning, StatusOver };
+//
+// Status enum
+//
+enum Status { StatusNormal, StatusAbnormal, StatusDanger };
 
-Status GetStatus(int count);
-int GetStatusIndicatorPin(Status status);
-
-void setup()
-{
-  pinMode(startButtonPin, INPUT_PULLUP);
-  pinMode(statusOKIndicatorPin, OUTPUT);
-  pinMode(statusWarningIndicatorPin, OUTPUT);
-  pinMode(statusOverIndicatorPin, OUTPUT);
-
-  disp.setDigitPins (digitPinsCount , digitPins);
-  disp.setCommonCathode();
-  //disp.setDutyCycle(20);
-  disp.setTimer(2);
-  disp.startTimer();
+//
+// Determines a Status value from a specified count value.
+//
+Status GetStatus(int count)
+{  
+  return count < ONE_MINUTE_IN_SECONDS + 1 ? 
+    StatusNormal : 
+    count < ONE_MINUTE_IN_SECONDS * 2 + 1 ? 
+      StatusAbnormal : 
+      StatusDanger;
 }
 
-void loop()
+//
+// Determines a status indicator pin from a specified Status value.
+//
+int GetStatusIndicatorPin(Status status)
 {
-  digitalWrite(statusOKIndicatorPin, HIGH);
-  digitalWrite(statusWarningIndicatorPin, HIGH);
-  digitalWrite(statusOverIndicatorPin, HIGH);
+  return status == StatusNormal ? 
+    NORMAL_STATE_LED_PIN :
+    status == StatusAbnormal ? 
+      ABNORMAL_STATE_LED_PIN : 
+      DANGER_STATE_LED_PIN;
+}
 
-  if (digitalRead(startButtonPin) == LOW)
+//
+// Converts a specified number to a string representation.
+//
+String ToDigitString(int number)
+{  
+  int seconds = number % ONE_MINUTE_IN_SECONDS;
+  // The following takes case of a single digit case where we
+  // prefix with "0" character so it would look like "04", "05", etc.
+  return (seconds >= 10) ? String(seconds) : "0" + String(seconds);
+}
+
+//
+// Set all indicator LEDs to a specified value (LOW or HIGH)
+//
+void SetAllIndicatorsTo(int value)
+{
+  digitalWrite(NORMAL_STATE_LED_PIN, value);
+  digitalWrite(ABNORMAL_STATE_LED_PIN, value);
+  digitalWrite(DANGER_STATE_LED_PIN, value);
+}
+
+//
+// Shows an animation using LEDs. This gives a clear feedback to the user.
+// This animation is only for presentation purpose. Customize as you like.
+//
+void ShowStartingAnimation()
+{
+  for (int i = 0; i <12; i++)
   {
+    SetAllIndicatorsTo(LOW);
+    int choice = i % 3;
+    switch (choice)
+    {
+      case 0:
+      digitalWrite(NORMAL_STATE_LED_PIN, HIGH);
+      break;
+
+      case 1:
+      digitalWrite(ABNORMAL_STATE_LED_PIN, HIGH);
+      break;
+
+      case 2:
+      default:
+      digitalWrite(DANGER_STATE_LED_PIN, HIGH);
+      break;
+    }
+
+    delay(50);
+    SetAllIndicatorsTo(LOW);
+  }
+}
+
+//
+// Setup Arduino device
+//
+void setup()
+{
+  pinMode(CONTROL_BUTTON_PIN, INPUT_PULLUP);
+  pinMode(NORMAL_STATE_LED_PIN, OUTPUT);
+  pinMode(ABNORMAL_STATE_LED_PIN, OUTPUT);
+  pinMode(DANGER_STATE_LED_PIN, OUTPUT);
+
+  disp.setDigitPins (DIGITS_PINS_COUNT , digitPins);
+  disp.setCommonCathode();
+  disp.setTimer(2);
+  disp.startTimer();
+
+  disp.write(ToDigitString(counter));
+}
+
+//
+// Processing loop of Arduino device
+//
+void loop()
+{  
+  SetAllIndicatorsTo(HIGH);
+
+  if (digitalRead(CONTROL_BUTTON_PIN) == LOW) // When pressed, it is LOW.
+  {
+    delay(10); // Helps to reduce missing input signal.
+
     if (!isCounting)
     {
-      canceled = false;      
       isCounting = true;
-      counter = 0;
+      counter = 1;
+      ShowStartingAnimation();
     }
     else
     {
-      canceled = true;
       isCounting = false;
-      delay(2000);
+      counter = 0;
+      disp.write(ToDigitString(counter));
+      delay(1000);      
     }
   }
     
   if (isCounting)
-  {    
-    if (canceled)
+  { 
+    if (counter < MAX_SECONDS)
     {
-      isCounting = false;
-      counter = 0;
-
-      int seconds = counter % oneMinuteInS;
-      disp.write((seconds >= 10) ? String(seconds) : "0" + String(seconds));
-    }
-    else if (counter < maxSeconds)
-    {
-      // Show status indicator, and wait for one second.
-      digitalWrite(statusOKIndicatorPin, LOW);
-      digitalWrite(statusWarningIndicatorPin, LOW);
-      digitalWrite(statusOverIndicatorPin, LOW);
-      digitalWrite(GetStatusIndicatorPin(GetStatus(counter)), HIGH);
-
-
-      delay(oneSecondInMS);
-
-      // If two-digit seconds, use it as is. Otherwise prefix with "0".
+      // Turn all LED indicators off.
+      SetAllIndicatorsTo(LOW);
       
-      int seconds = counter % oneMinuteInS;
-      disp.write((seconds >= 10) ? String(seconds) : "0" + String(seconds));
+      // Pick the right LED indicator, and light it up.
+      digitalWrite(
+        GetStatusIndicatorPin(
+          GetStatus(counter)), 
+        HIGH);
+
+      // Block the thread of execution for about 0.5 seconds. 
+      // Where is the other 0.1 second? It is used while polling Control button.
+      delay(ONE_SECOND_IN_MS - 10);
+
+      // Show the counter value in 7-segment LEDs
+      disp.write(ToDigitString(counter));
+
       counter++;
     }
     else
     {
       isCounting = false;
+      counter = 0;
+      disp.write(ToDigitString(counter));
     }
   }
-}
-
-Status GetStatus(int count)
-{
-  return count < oneMinuteInS ? 
-    StatusOK : 
-    count < oneMinuteInS * 2 ? 
-      StatusWarning : 
-      StatusOver;
-}
-
-int GetStatusIndicatorPin(Status status)
-{
-  return status == StatusOK ? 
-    statusOKIndicatorPin :
-    status == StatusWarning ? 
-      statusWarningIndicatorPin : 
-      statusOverIndicatorPin;
 }
 
 ISR( TIMER2_COMPA_vect ) 
 {
   disp.interruptAction ();
 }
-
-
