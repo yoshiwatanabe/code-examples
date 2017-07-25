@@ -1,0 +1,22 @@
+{
+  "name": "sample1",
+  "version": "1.0.0",
+  "description": "small sample of typescript",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.1",
+    "typescript": "^2.4.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.1",
+    "typescript": "^2.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts-build": "gulp ts-build"
+  },
+  "author": "",
+  "license": "ISC"
+}
