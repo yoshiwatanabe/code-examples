@@ -29,7 +29,7 @@ ported for sparkfun esp32
 #include <HTTPClient.h>
 
 const char* ssid     = "ATT-WIFI-8775";
-const char* password = "58271517";
+const char* password = "";
 
 
 void setup() {
