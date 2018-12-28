@@ -1,4 +1,4 @@
-﻿# Congiure your Console project to use User Secrets
+﻿# Configure your Console project to use User Secrets
 
 1. Generate a new Guid value and specify it in your .csproj as shown below. (You have to open your .csproj in an text editor)
 
