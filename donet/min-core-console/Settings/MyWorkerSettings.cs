@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sample
+﻿namespace Sample.Settings
 {
     public class MyWorkerSettings
     {

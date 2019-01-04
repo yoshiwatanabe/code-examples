@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Project.Settings;
+using Sample.Services;
+using Sample.Settings;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;

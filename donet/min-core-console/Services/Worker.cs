@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using Project.Settings;
+using Sample.Settings;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sample
+namespace Sample.Services
 {
     public class Worker : IWorker
     {

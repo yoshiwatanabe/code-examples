@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sample
+namespace Sample.Services
 {
     public interface IWorker
     {
