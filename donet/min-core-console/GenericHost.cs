@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project.Settings;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace Sample
                 {
                     Configuration = configBuilder
                         .SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
+                        .AddJsonFile("appsettings.json", false, true)
                         .AddUserSecrets<MyWorkerSettings>()
                         .Build();
                 })
@@ -41,6 +43,8 @@ namespace Sample
                     services
                         .AddOptions()
                         .Configure<MyWorkerSettings>(Configuration.GetSection(nameof(MyWorkerSettings)))
+                        .Configure<CustomSettings>(Configuration.GetSection(nameof(CustomSettings)))
+                        .Configure<ParentSettings>(options => Configuration.GetSection("ParentSettings").Bind(options))
                         .AddSingleton<IWorker, Worker>();
                 })
                 .UseConsoleLifetime()
