@@ -9,9 +9,9 @@ namespace aad_client_console
     {
         static void Main(string[] args)
         {
-            var authContext = new AuthenticationContext("https://login.microsoftonline.com/tsuyoshiwatanabehotmail.onmicrosoft.com");
+            var authContext = new AuthenticationContext("https://login.microsoftonline.com/TODO.onmicrosoft.com");
 
-            var codeResult = authContext.AcquireDeviceCodeAsync("https://graph.microsoft.com/", "b0905193-7b35-4415-8029-2569d9d1637a").Result;
+            var codeResult = authContext.AcquireDeviceCodeAsync("https://graph.microsoft.com/", "TODO").Result;
                 Console.ResetColor();
                 Console.WriteLine("You need to sign in.");
                 Console.WriteLine("Message: " + codeResult.Message + "\n");
